@@ -29,6 +29,7 @@ fn query_players_move<T: Sized + Position>(pos : &mut T)
         let mut success = true;
         
         // try to parse the move: https://docs.rs/shakmaty/latest/shakmaty/uci/index.html
+        // TOFIX: fails to parse input like "c6c7" or "b6b7"
         let uci: UciMove = match input.parse() {
             Ok(mv) => mv,
             Err(_) => { println!("Failed to parse the move."); continue; }
