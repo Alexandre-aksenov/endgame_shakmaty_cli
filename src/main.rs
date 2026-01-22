@@ -4,9 +4,15 @@ use shakmaty::{Chess, Position, fen::Fen, CastlingMode, uci::UciMove};
 use std::io; // to query the Player's moves.
 
 
-fn query_players_move(mut pos: &mut dyn Position)
+// fn query_players_move(mut pos: &mut dyn Position)
+//->
 // fn <T> query_players_move(mut pos: T)
 // where T: Sized + Position
+//->
+// fn query_players_move(mut play_board: Chess)
+//->
+/// Query the player's move. To-CALL, To-refactor 
+fn query_players_move<T: Sized + Position>(pos : &mut T)
 {
     loop {
         println!("Enter UCI move:");
@@ -19,7 +25,7 @@ fn query_players_move(mut pos: &mut dyn Position)
         // let uci: UciMove = input.trim().parse()?;
         let mut success = true;
         
-        // try to parse the move : https://docs.rs/shakmaty/latest/shakmaty/uci/index.html
+        // try to parse the move: https://docs.rs/shakmaty/latest/shakmaty/uci/index.html
         let uci: UciMove = match input.parse() {
             Ok(mv) => mv,
             Err(_) => { continue; }
@@ -28,6 +34,12 @@ fn query_players_move(mut pos: &mut dyn Position)
         // Try Converting to a legal move in the context of a position:
         // let m = uci.to_move(pos)?;
         // -> Requires trait Sized + Position
+        //->
+        let m = match uci.to_move(pos) {
+            Ok(mv) => mv,
+            Err(_) => { continue; }
+        };
+        
         
         if success { break; }
 
