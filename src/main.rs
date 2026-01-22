@@ -26,7 +26,7 @@ fn query_players_move<T: Sized + Position>(pos : &mut T)
         // let success = play_board.apply_uci_move(input.trim());
         // awaiting_player_move = success;
         // ->
-        let mut success = true;
+        let success = true;
 
         // try to parse the move: https://docs.rs/shakmaty/latest/shakmaty/uci/index.html
         let uci: UciMove = match input.parse() {
