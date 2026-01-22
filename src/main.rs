@@ -19,17 +19,19 @@ fn query_players_move<T: Sized + Position>(pos : &mut T)
         println!("Enter UCI move:");
         let mut input = String::new();
         io::stdin().read_line(&mut input).expect("Failed to read line");
-
+        
+        // Debug:
+        println!("Input: {}", input);
+        
         // let success = play_board.apply_uci_move(input.trim());
         // awaiting_player_move = success;
         // ->
-        // let uci: UciMove = input.trim().parse()?;
         let mut success = true;
         
         // try to parse the move: https://docs.rs/shakmaty/latest/shakmaty/uci/index.html
         let uci: UciMove = match input.parse() {
             Ok(mv) => mv,
-            Err(_) => { continue; }
+            Err(_) => { println!("Failed to parse the move."); continue; }
         };
 
         // Try Converting to a legal move in the context of a position:
@@ -38,7 +40,7 @@ fn query_players_move<T: Sized + Position>(pos : &mut T)
         //->
         let m = match uci.to_move(pos) {
             Ok(mv) => mv,
-            Err(_) => { continue; }
+            Err(_) => { println!("Illegal move."); continue; }
         };
         
         
