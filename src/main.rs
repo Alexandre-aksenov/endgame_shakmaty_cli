@@ -11,8 +11,7 @@ use std::io; // to query the Player's moves.
 //->
 // fn query_players_move(mut play_board: Chess)
 //->
-/// Query the player's move. To-CALL, To-refactor
-/// TOFIX: this does not accept human-readable format yet
+/// Query the player's move and make it. To-refactor
 fn query_players_move<T: Sized + Position>(pos : &mut T)
 {
     loop {
@@ -44,7 +43,8 @@ fn query_players_move<T: Sized + Position>(pos : &mut T)
             Err(_) => { println!("Illegal move."); continue; }
         };
 
-        // Play the move, TODO
+        // Play the move.
+        pos.play_unchecked(m);
 
         if success { break; }
 
