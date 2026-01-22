@@ -11,7 +11,8 @@ use std::io; // to query the Player's moves.
 //->
 // fn query_players_move(mut play_board: Chess)
 //->
-/// Query the player's move. To-CALL, To-refactor 
+/// Query the player's move. To-CALL, To-refactor
+/// TOFIX: this does not accept human-readable format yet
 fn query_players_move<T: Sized + Position>(pos : &mut T)
 {
     loop {
@@ -65,7 +66,9 @@ fn main() {
     
     // Print the pos of study
     println!("Init position");
-    // println!("{:?}", study); // Too much printed info!
-    // ->
+    println!("{}", study.board()); // FEN. Small outpuit for end user, but enough for dev.
+
+    // Query the player's move.
+    query_players_move(&mut study);
     println!("{}", study.board());
 }
