@@ -19,17 +19,17 @@ fn query_players_move<T: Sized + Position>(pos : &mut T)
         println!("Enter UCI move:");
         let mut input = String::new();
         io::stdin().read_line(&mut input).expect("Failed to read line");
-        
+
         // Debug:
-        println!("Input: {}", input);
-        
+        println!("Raw input: {:?}", input);
+        let input = input.trim(); // <-- critical addition
+
         // let success = play_board.apply_uci_move(input.trim());
         // awaiting_player_move = success;
         // ->
         let mut success = true;
-        
+
         // try to parse the move: https://docs.rs/shakmaty/latest/shakmaty/uci/index.html
-        // TOFIX: fails to parse input like "c6c7" or "b6b7"
         let uci: UciMove = match input.parse() {
             Ok(mv) => mv,
             Err(_) => { println!("Failed to parse the move."); continue; }
@@ -43,8 +43,9 @@ fn query_players_move<T: Sized + Position>(pos : &mut T)
             Ok(mv) => mv,
             Err(_) => { println!("Illegal move."); continue; }
         };
-        
-        
+
+        // Play the move, TODO
+
         if success { break; }
 
     }
@@ -52,7 +53,7 @@ fn query_players_move<T: Sized + Position>(pos : &mut T)
 
 
 fn main() {
-    
+
     println!("Hello, world!");
 
     // Position by Barbieri-Saavedra
@@ -66,7 +67,7 @@ fn main() {
 
     let fen: Fen = "8/8/1KP5/3r4/8/8/8/k7 w - - 0 0".parse().unwrap();
     let mut study: Chess = fen.into_position(CastlingMode::Standard).unwrap();
-    
+
     // Print the pos of study
     println!("Init position");
     println!("{}", study.board()); // FEN. Small outpuit for end user, but enough for dev.
