@@ -1,5 +1,8 @@
-use shakmaty::{Chess, Position, fen::Fen, CastlingMode, uci::UciMove};
+use shakmaty::{Chess, Position, fen::Fen, CastlingMode, uci::UciMove, Move};
 // see: https://docs.rs/shakmaty/latest/shakmaty/fen/index.html
+
+use shakmaty_syzygy::{Tablebase, MaybeRounded, Wdl};
+
 
 use std::io; // to query the Player's moves.
 
@@ -51,6 +54,16 @@ fn query_players_move<T: Sized + Position>(pos : &mut T)
     }
 }
 
+/// Best move from the tablebase. Next step: Result<Move, String>
+fn query_tablebase_move(pos :  &Chess, tables: Tablebase<Chess>) -> Move
+{
+    let tup_move = tables
+        .best_move(pos)
+        .expect("Position was not found.")
+        .expect("Could not find the best move.");
+    
+    return tup_move.0;
+}
 
 fn main() {
 
