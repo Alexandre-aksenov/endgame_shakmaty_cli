@@ -55,7 +55,7 @@ fn query_players_move<T: Sized + Position>(pos : &mut T)
 }
 
 /// Best move from the tablebase. Next step: Result<Move, String>
-fn query_tablebase_move(pos :  &Chess, tables: Tablebase<Chess>) -> Move
+fn query_tablebase_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Move
 {
     let tup_move = tables
         .best_move(pos)
@@ -81,11 +81,20 @@ fn main() {
     let fen: Fen = "8/8/1KP5/3r4/8/8/8/k7 w - - 0 0".parse().unwrap();
     let mut study: Chess = fen.into_position(CastlingMode::Standard).unwrap();
 
+    // import the tablebase, TODO
+    let mut tables = Tablebase::new();
+    tables.add_directory("tables").expect("Could not add tablebase directory");
+    
     // Print the pos of study
     println!("Init position");
     println!("{}", study.board()); // FEN. Small outpuit for end user, but enough for dev.
 
     // Query the player's move.
     query_players_move(&mut study);
+    println!("{}", study.board());
+    
+    let opponent_reply = query_tablebase_move(&study, &tables);
+    study.play_unchecked(opponent_reply) ;
+    println!("Position after opponent's move:");
     println!("{}", study.board());
 }
