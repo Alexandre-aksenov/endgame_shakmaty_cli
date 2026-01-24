@@ -81,7 +81,7 @@ fn main() {
     let fen: Fen = "8/8/1KP5/3r4/8/8/8/k7 w - - 0 0".parse().unwrap();
     let mut study: Chess = fen.into_position(CastlingMode::Standard).unwrap();
 
-    // import the tablebase, TODO
+    // import the tablebase.
     let mut tables = Tablebase::new();
     tables.add_directory("tables").expect("Could not add tablebase directory");
     
@@ -96,5 +96,8 @@ fn main() {
     let opponent_reply = query_tablebase_move(&study, &tables);
     study.play_unchecked(opponent_reply) ;
     println!("Position after opponent's move:");
-    println!("{}", study.board());
+    println!("{}", study.board()); // 8/2P5/1K1r4/8/8/8/8/k7 -> main line!
+
 }
+
+
