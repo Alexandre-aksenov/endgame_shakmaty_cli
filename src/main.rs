@@ -87,17 +87,27 @@ fn main() {
     
     // Print the pos of study
     println!("Init position");
-    println!("{}", study.board()); // FEN. Small outpuit for end user, but enough for dev.
+    println!("{}", study.board()); // FEN. Small output for end user, but enough for dev.
 
-    // Query the player's move.
-    query_players_move(&mut study);
-    println!("{}", study.board());
-    
-    let opponent_reply = query_tablebase_move(&study, &tables);
-    study.play_unchecked(opponent_reply) ;
-    println!("Position after opponent's move:");
-    println!("{}", study.board()); // 8/2P5/1K1r4/8/8/8/8/k7 -> main line!
-
+    // Main loop
+    let mut awaiting_player_move = true;
+    while !study.is_game_over()
+    {
+        if awaiting_player_move {
+            // Query the player's move.
+            query_players_move(&mut study);
+            println!("{}", study.board());
+        }
+        else 
+        { 
+            let opponent_reply = query_tablebase_move(&study, &tables);
+            study.play_unchecked(opponent_reply) ;
+            println!("Position after opponent's move:");
+            println!("{}", study.board()); // 8/2P5/1K1r4/8/8/8/8/k7 -> main line!
+        }
+        
+        awaiting_player_move = !awaiting_player_move;
+    }
 }
 
 
