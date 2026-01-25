@@ -53,6 +53,9 @@ fn main() {
         
         awaiting_player_move = !awaiting_player_move;
     }
+    
+    println!("Game over. Result: {}", study.outcome().as_str());
+    // 1-0 in case of good play by W.
 }
 
 
