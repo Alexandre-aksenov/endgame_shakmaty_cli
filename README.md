@@ -1,7 +1,7 @@
 # Endgame training for chess players.
 
 This computer game simulates solving exercises from a book about chess endgames.
-The player is presented with a position and is asked to play it against a program.
+The player is presented with a position and is asked to play against a program.
 The player is told at the end of the game whether the result corresponds to the expected one.
 In this case, the player can progress to the next exercise.
 
@@ -11,10 +11,12 @@ Breaking the program's defense should merely serve to validate the solution.
 ## The opponent.
 
 The current opponent is a subset of Syzygy tablebase.
-It selects the move with the best outcome and is expected to prefer the line with the highest number of moves until capture.
-If the opponent's move does not follow this rule, the player is kindly asked to communicate this behaviour to the author of the repository.
+It selects the move with the best outcome and is expected to prefer the line with the highest number of moves until a pawn move or capture.
+Its play is not the strongest one when several "equivalent" moves are possible.
 
-To run the program, the user should have Rust installed and download the necessary tables from <code>http://tablebase.sesse.net/syzygy/3-4-5/</code>
+## Usage.
+
+To play the game, the user should have Rust installed, clone the repository, download the necessary tables from <code>http://tablebase.sesse.net/syzygy/3-4-5/</code>
 to the folder <code>tables</code> and run the following in the root folder:
 ```bash
 ls ./tables/
@@ -26,6 +28,14 @@ cargo build
 
 cargo run
 ```
+
+The game has been developed and tested on Rust 1.92.0 stable.
+
+The player's moves should be entered in the UCI format:
+
+<code>{square of departure}{square of arrival}[optional piece of promotion]</code>
+
+For instance: <code>c6c7</code>, then <code>c7c8q</code>.
 
 ## Limitations and future work.
 
