@@ -19,7 +19,8 @@ to the folder <code>tables</code> and run the following in the root folder:
 ```bash
 ls ./tables/
 #-> {the list of files to download}
-# KPvK.rtbw  KPvK.rtbz  KQvKR.rtbw  KQvKR.rtbz  KQvK.rtbw  KQvK.rtbz  KRvKB.rtbw  KRvKB.rtbz  KRvKN.rtbw  KRvKN.rtbz  KRvKP.rtbw  KRvKP.rtbz  KRvKR.rtbw  KRvKR.rtbz  KRvK.rtbw  KRvK.rtbz
+# KBvK.rtbw  KNvK.rtbw  KPvK.rtbw  KQvKR.rtbw  KQvK.rtbw  KRvKB.rtbw  KRvKN.rtbw  KRvKP.rtbw  KRvKR.rtbw  KRvK.rtbw
+# KBvK.rtbz  KNvK.rtbz  KPvK.rtbz  KQvKR.rtbz  KQvK.rtbz  KRvKB.rtbz  KRvKN.rtbz  KRvKP.rtbz  KRvKR.rtbz  KRvK.rtbz
 
 cargo build
 
