@@ -4,8 +4,6 @@ use shakmaty::{Chess, Position, fen::Fen, CastlingMode};
 use shakmaty_syzygy::{Tablebase};
 
 
-// use std::io; // to query the Player's moves.
-
 extern crate endgame_shakmaty_cli;
 use endgame_shakmaty_cli::{query_players_move, query_tablebase_move};
 
@@ -43,17 +41,17 @@ fn main() {
             query_players_move(&mut study);
             println!("{}", study.board());
         }
-        else 
-        { 
+        else
+        {
             let opponent_reply = query_tablebase_move(&study, &tables);
             study.play_unchecked(opponent_reply) ;
             println!("Position after opponent's move:");
             println!("{}", study.board()); // 8/2P5/1K1r4/8/8/8/8/k7 -> main line!
         }
-        
+
         awaiting_player_move = !awaiting_player_move;
     }
-    
+
     println!("Game over. Result: {}", study.outcome().as_str());
     // 1-0 in case of good play by W.
 }

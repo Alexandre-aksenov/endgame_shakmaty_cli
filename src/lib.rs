@@ -15,9 +15,6 @@ pub fn query_players_move<T: Sized + Position>(pos : &mut T)
         println!("Raw input: {:?}", input);
         let input = input.trim(); // <-- critical addition
 
-        // let success = play_board.apply_uci_move(input.trim());
-        // awaiting_player_move = success;
-        // ->
         let success = true;
 
         // try to parse the move: https://docs.rs/shakmaty/latest/shakmaty/uci/index.html
@@ -27,9 +24,6 @@ pub fn query_players_move<T: Sized + Position>(pos : &mut T)
         };
 
         // Try Converting to a legal move in the context of a position:
-        // let m = uci.to_move(pos)?;
-        // -> Requires trait Sized + Position
-        //->
         let m = match uci.to_move(pos) {
             Ok(mv) => mv,
             Err(_) => { println!("Illegal move."); continue; }
