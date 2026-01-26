@@ -6,14 +6,17 @@ use std::io; // to query the Player's moves.
 /// Query the player's move and make it. To-refactor
 pub fn query_players_move<T: Sized + Position>(pos : &mut T)
 {
-    loop {
+    // new, 26/1
+    let mut candidate_move = None;
+    
+    while candidate_move.is_none() {
         println!("Enter UCI move:");
         let mut input = String::new();
         io::stdin().read_line(&mut input).expect("Failed to read line");
 
         // Debug:
         println!("Raw input: {:?}", input);
-        let input = input.trim(); // <-- critical addition
+        let input = input.trim(); // <-- trim the user input from '/n'
 
         let success = true;
 
@@ -24,14 +27,18 @@ pub fn query_players_move<T: Sized + Position>(pos : &mut T)
         };
 
         // Try Converting to a legal move in the context of a position:
-        let m = match uci.to_move(pos) {
-            Ok(mv) => mv,
+        candidate_move = match uci.to_move(pos) {
+            Ok(mv) => Some(mv),
             Err(_) => { println!("Illegal move."); continue; }
         };
 
-        // Play the move.
-        pos.play_unchecked(m);
 
+        // Play the move.
+        match candidate_move {
+            Some(mv) => pos.play_unchecked(mv),
+            None => {}
+        }
+        
         if success { break; }
 
     }
