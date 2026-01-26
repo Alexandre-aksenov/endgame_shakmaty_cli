@@ -18,8 +18,6 @@ pub fn query_players_move<T: Sized + Position>(pos : &mut T)
         println!("Raw input: {:?}", input);
         let input = input.trim(); // <-- trim the user input from '/n'
 
-        let success = true;
-
         // try to parse the move: https://docs.rs/shakmaty/latest/shakmaty/uci/index.html
         let uci: UciMove = match input.parse() {
             Ok(mv) => mv,
@@ -39,8 +37,6 @@ pub fn query_players_move<T: Sized + Position>(pos : &mut T)
             None => {}
         }
         
-        if success { break; }
-
     }
 }
 
