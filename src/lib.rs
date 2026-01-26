@@ -8,7 +8,7 @@ pub fn query_players_move<T: Sized + Position>(pos : &mut T)
 {
     // new, 26/1
     let mut candidate_move = None;
-    
+
     while candidate_move.is_none() {
         println!("Enter UCI move:");
         let mut input = String::new();
@@ -30,13 +30,12 @@ pub fn query_players_move<T: Sized + Position>(pos : &mut T)
             Err(_) => { println!("Illegal move."); continue; }
         };
 
+    }
 
-        // Play the move.
-        match candidate_move {
-            Some(mv) => pos.play_unchecked(mv),
-            None => {}
-        }
-        
+    // Play the move.
+    match candidate_move {
+        Some(mv) => pos.play_unchecked(mv),
+        None => {}
     }
 }
 
