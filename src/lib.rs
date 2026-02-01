@@ -32,11 +32,8 @@ pub fn query_players_move<T: Sized + Position>(pos : &mut T)
 
     }
 
-    // Play the move.
-    match candidate_move {
-        Some(mv) => pos.play_unchecked(mv),
-        None => {}
-    }
+    play_opt_move(pos, candidate_move);
+
 }
 
 
@@ -50,3 +47,13 @@ pub fn query_tablebase_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Move
 
     return tup_move.0;
 }
+
+/// Play the move.
+pub fn play_opt_move<T: Sized + Position>(pos : &mut T, opt_mv: Option<Move>)
+{
+    match opt_mv {
+        Some(mv) => pos.play_unchecked(mv),
+        None => {}
+    }
+}
+
