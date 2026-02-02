@@ -5,8 +5,8 @@ use shakmaty_syzygy::{Tablebase};
 
 
 extern crate endgame_shakmaty_cli;
-use endgame_shakmaty_cli::{query_players_move, query_tablebase_move};
-
+use endgame_shakmaty_cli::{query_player_wait,  query_tablebase_move};
+// query_players_move,
 
 fn main() {
 
@@ -31,14 +31,15 @@ fn main() {
     // Print the pos of study
     println!("Init position");
     println!("{}", study.board()); // FEN. Small output for end user, but enough for dev.
+    // For instance: 8/8/1KP5/3r4/8/8/8/k7
 
     // Main loop
     let mut awaiting_player_move = true;
     while !study.is_game_over()
     {
         if awaiting_player_move {
-            // Query the player's move.
-            query_players_move(&mut study);
+            let players_play = query_player_wait(&mut study);
+            study.play_unchecked(players_play);
             println!("{}", study.board());
         }
         else

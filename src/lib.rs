@@ -3,10 +3,20 @@ use shakmaty_syzygy::Tablebase;
 use std::io; // to query the Player's moves.
 
 
-/// Query the player's move and make it. To-refactor
-pub fn query_players_move<T: Sized + Position>(pos : &mut T)
+/// Best move from the tablebase. Next step: Result<Move, String>
+pub fn query_tablebase_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Move
 {
-    // new, 26/1
+    let tup_move = tables
+        .best_move(pos)
+        .expect("Position was not found.")
+        .expect("Could not find the best move.");
+
+    return tup_move.0;
+}
+
+/// Query the player's move and return it to the main loop.
+pub fn query_player_wait<T: Sized + Position>(pos : &mut T) -> Move
+{
     let mut candidate_move = None;
 
     while candidate_move.is_none() {
@@ -31,23 +41,11 @@ pub fn query_players_move<T: Sized + Position>(pos : &mut T)
         };
 
     }
-
-    play_opt_move(pos, candidate_move);
-
+    
+    candidate_move.expect("The loop ended in an unexpected state.")
 }
 
-
-/// Best move from the tablebase. Next step: Result<Move, String>
-pub fn query_tablebase_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Move
-{
-    let tup_move = tables
-        .best_move(pos)
-        .expect("Position was not found.")
-        .expect("Could not find the best move.");
-
-    return tup_move.0;
-}
-
+/*
 /// Play the move.
 pub fn play_opt_move<T: Sized + Position>(pos : &mut T, opt_mv: Option<Move>)
 {
@@ -56,4 +54,4 @@ pub fn play_opt_move<T: Sized + Position>(pos : &mut T, opt_mv: Option<Move>)
         None => {}
     }
 }
-
+*/
