@@ -45,6 +45,7 @@ fn main() {
         else
         {
             let opponent_reply = query_tablebase_move(&study, &tables);
+            println!("Opponent's move: {}", opponent_reply); // Examples: "Rd6-d5", "Rd7xc7"
             study.play_unchecked(opponent_reply) ;
             println!("Position after opponent's move:");
             println!("{}", study.board()); // 8/2P5/1K1r4/8/8/8/8/k7 -> main line!
