@@ -5,7 +5,7 @@ use shakmaty_syzygy::{Tablebase};
 
 
 extern crate endgame_shakmaty_cli;
-use endgame_shakmaty_cli::{query_player_wait,  query_tablebase_move};
+use endgame_shakmaty_cli::{query_player_wait,  query_tablebase_move, query_opponent_move};
 // query_players_move,
 
 fn main() {
@@ -44,7 +44,10 @@ fn main() {
         }
         else
         {
-            let opponent_reply = query_tablebase_move(&study, &tables);
+            // let opponent_reply = query_tablebase_move(&study, &tables);
+            // ->
+            let opponent_reply = query_opponent_move(&study, &tables).expect("Could not query opponent's move.");
+            
             println!("Opponent's move: {}", opponent_reply); // Examples: "Rd6-d5", "Rd7xc7"
             study.play_unchecked(opponent_reply) ;
             println!("Position after opponent's move:");
