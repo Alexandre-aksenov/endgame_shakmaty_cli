@@ -5,8 +5,8 @@ use shakmaty_syzygy::{Tablebase};
 
 
 extern crate endgame_shakmaty_cli;
-use endgame_shakmaty_cli::{query_player_wait,  query_tablebase_move, query_opponent_move};
-// query_players_move,
+use endgame_shakmaty_cli::{query_player_wait, query_opponent_move};
+// query_players_move, query_tablebase_move
 
 fn main() {
 

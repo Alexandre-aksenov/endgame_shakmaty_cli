@@ -3,8 +3,8 @@ use shakmaty_syzygy::Tablebase;
 use std::io; // to query the Player's moves.
 
 
-/// Best move from the tablebase. Next step: Result<Move, String>
-pub fn query_tablebase_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Move
+/// Best move from the tablebase.
+fn query_tablebase_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Move
 {
     let tup_move = tables
         .best_move(pos)
@@ -63,7 +63,7 @@ pub fn query_opponent_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Result<M
     let pos_fen = format!("{}", pos.board());
     let pos_pieces = str_chess_pieces(pos_fen.as_str());
     
-    match (pos_pieces == String::from("8/2P5/8/8/8/3r4/2K5/k7")) {
+    match pos_pieces == String::from("8/2P5/8/8/8/3r4/2K5/k7") {
         true => check_uci_to_move(pos, &String::from("d3d4")),
         // false => Ok(query_tablebase_move(pos, tables)) // -> 2nd check
         false => match pos_pieces == String::from("8/2P5/8/8/8/8/2K5/k2r4") {
