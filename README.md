@@ -35,7 +35,11 @@ The player's moves should be entered in the UCI format:
 
 <code>{square of departure}{square of arrival}[optional piece of promotion]</code>
 
-For instance: <code>c6c7</code>, then <code>c7c8q</code>.
+The moving piece, capture, check, etc, should not be indicated.  For instance, if White has a pawn at <code>c6</code> and it is allowed to move twice:
+<code>c6c7</code>, then <code>c7c8q</code>.
+
+If the move is badly formatted or illegal (from the point of view of rules of chess),
+the game will ask the player to try again.
 
 ## Limitations and future work.
 
