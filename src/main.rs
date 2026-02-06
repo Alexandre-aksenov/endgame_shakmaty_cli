@@ -57,8 +57,16 @@ fn main() {
         awaiting_player_move = !awaiting_player_move;
     }
 
-    println!("Game over. Result: {}", study.outcome().as_str());
+    // Print the result 
+    let result = study.outcome().as_str();
+    
+    println!("Game over. Result: {}", result);
     // 1-0 in case of good play by W.
+    
+    match result == String::from("1-0") { 
+        true => println!("Congratulations! You are victorious!"),
+        false => println!("You failed to achieve victory."),
+    }
 }
 
 
