@@ -43,7 +43,7 @@ the game will ask the player to try again.
 
 ## Limitations and future work.
 
-This is a work in progress. It currently contains a single position (position by Barebieri-Saavedra) and is limited to CLI interface.
+This is a work in progress. It currently contains a single position (position by Barbieri-Saavedra) and is limited to CLI interface.
 
 All <b>suggestions</b> and <b>feedback</b> should be adressed to its author Alexandre Aksenov:
 * GitHub: Alexandre-aksenov
