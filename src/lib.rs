@@ -23,16 +23,11 @@ pub fn query_player_wait<T: Sized + Position>(pos : &mut T) -> Move
         println!("Enter UCI move:");
         let mut input = String::new();
         io::stdin().read_line(&mut input).expect("Failed to read line");
-
-        // Debug:
-        // println!("Raw input: {:?}", input);
-        let input = input.trim(); // <-- trim the user input from '/n'
         
-        candidate_move = match check_uci_to_move(pos, input) {
+        candidate_move = match check_uci_to_move(pos, input.trim()) {
             Ok(mv) => Some(mv),
             Err(err) => {println!("Encountered problem: {}", err); None},
         }
-        
     }
     
     candidate_move.expect("The loop ended in an unexpected state.")
