@@ -27,20 +27,12 @@ pub fn query_player_wait<T: Sized + Position>(pos : &mut T) -> Move
         // Debug:
         // println!("Raw input: {:?}", input);
         let input = input.trim(); // <-- trim the user input from '/n'
-
-        // try to parse the move: https://docs.rs/shakmaty/latest/shakmaty/uci/index.html
-        // -> fn check_uci_to_move
-        let uci: UciMove = match input.parse() {
-            Ok(mv) => mv,
-            Err(_) => { println!("Failed to parse the move."); continue; }
-        };
-
-        // Try Converting to a legal move in the context of a position:
-        candidate_move = match uci.to_move(pos) {
+        
+        candidate_move = match check_uci_to_move(pos, input) {
             Ok(mv) => Some(mv),
-            Err(_) => { println!("Illegal move."); continue; }
-        };
-
+            Err(err) => {println!("Encountered problem: {}", err); None},
+        }
+        
     }
     
     candidate_move.expect("The loop ended in an unexpected state.")
@@ -82,7 +74,7 @@ fn str_chess_pieces(full_fen: &str) -> &str
 }
 
 /// try to parse the move: https://docs.rs/shakmaty/latest/shakmaty/uci/index.html
-fn check_uci_to_move(pos :  &Chess, input: &str) -> Result<Move, String>
+fn check_uci_to_move<T: Sized + Position>(pos : &T, input: &str) -> Result<Move, String>
 {
     // Debug:
     // println!("In check_uci_to_move, parsing input: {:?}", input);
