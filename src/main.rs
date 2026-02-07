@@ -30,7 +30,7 @@ fn main() {
     
     // Print the pos of study
     println!("Init position");
-    println!("{}", study.board()); // FEN. Small output for end user, but enough for dev.
+    println!("{:?}", study.board()); // FEN. Small output for end user, but enough for dev.
     // For instance: 8/8/1KP5/3r4/8/8/8/k7
 
     // Main loop
@@ -40,7 +40,7 @@ fn main() {
         if awaiting_player_move {
             let players_play = query_player_wait(&mut study);
             study.play_unchecked(players_play);
-            println!("{}", study.board());
+            println!("FEN: {}", study.board());
         }
         else
         {
@@ -51,15 +51,27 @@ fn main() {
             println!("Opponent's move: {}", opponent_reply); // Examples: "Rd6-d5", "Rd7xc7"
             study.play_unchecked(opponent_reply) ;
             println!("Position after opponent's move:");
-            println!("{}", study.board()); // 8/2P5/1K1r4/8/8/8/8/k7 -> main line!
+            println!("{:?}", study.board());
+            /*
+. . . . . . . .
+. . P . . . . .
+. K . r . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+k . . . . . . .
+             -> main line!
+             */
         }
 
         awaiting_player_move = !awaiting_player_move;
     }
 
-    // Print the result 
+    // Print the final position and result 
     let result = study.outcome().as_str();
-    
+
+    println!("{:?}", study.board());
     println!("Game over. Result: {}", result);
     // 1-0 in case of good play by W.
     
