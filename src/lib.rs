@@ -52,7 +52,7 @@ pub fn query_opponent_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Result<M
     
     match pos_pieces == String::from("8/2P5/8/8/8/3r4/2K5/k7") {
         true => check_uci_to_move(pos, &String::from("d3d4")),
-        // false => Ok(query_tablebase_move(pos, tables)) // -> 2nd check
+        // -> 2nd check
         false => match pos_pieces == String::from("8/2P5/8/8/8/8/2K5/k2r4") {
             true => check_uci_to_move(pos, &String::from("d1d4")),
             false => Ok(query_tablebase_move(pos, tables))
@@ -84,7 +84,7 @@ fn check_uci_to_move<T: Sized + Position>(pos : &T, input: &str) -> Result<Move,
     // Try Converting to a legal move in the context of a position:
     let candidate_move = match uci.to_move(pos) {
         Ok(mv) => mv,
-        Err(_) => { // println!("Illegal move."); continue;
+        Err(_) => {
         return Err(String::from("Illegal move."))}
     };
 
@@ -97,4 +97,3 @@ pub fn pretty_format<T: Sized + Position>(pos : &T) -> String
 {
     format!("{:?}", pos.board())
 }
- 

@@ -29,9 +29,17 @@ fn main() {
     
     // Print the pos of study
     println!("Init position");
-    // println!("{:?}", study.board()); // FEN. Small output for end user, but enough for dev.
-    // For instance: 8/8/1KP5/3r4/8/8/8/k7
     println!("{}", pretty_format(&study));
+    /*
+. . . . . . . .
+. . . . . . . .
+. K P . . . . .
+. . . r . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+k . . . . . . .
+     */
     
     // Main loop
     let mut awaiting_player_move = true;
@@ -44,27 +52,12 @@ fn main() {
         }
         else
         {
-            // let opponent_reply = query_tablebase_move(&study, &tables);
-            // ->
             let opponent_reply = query_opponent_move(&study, &tables).expect("Could not query opponent's move.");
             
             println!("Opponent's move: {}", opponent_reply); // Examples: "Rd6-d5", "Rd7xc7"
             study.play_unchecked(opponent_reply) ;
             println!("Position after opponent's move:");
-            // println!("{:?}", study.board());
-            //->
-            println!("{}", pretty_format(&study));
-            /*
-. . . . . . . .
-. . P . . . . .
-. K . r . . . .
-. . . . . . . .
-. . . . . . . .
-. . . . . . . .
-. . . . . . . .
-k . . . . . . .
-             -> main line!
-             */
+            println!("{}", pretty_format(&study)); // -> main line!
         }
 
         awaiting_player_move = !awaiting_player_move;
