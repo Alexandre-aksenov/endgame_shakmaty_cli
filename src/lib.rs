@@ -90,3 +90,11 @@ fn check_uci_to_move<T: Sized + Position>(pos : &T, input: &str) -> Result<Move,
 
     Ok(candidate_move)
 }
+
+/// "Pretty-print" position after the opponent's move.
+/// The layout can be improved by adding numbers of ranks & files
+pub fn pretty_format<T: Sized + Position>(pos : &T) -> String
+{
+    format!("{:?}", pos.board())
+}
+ 

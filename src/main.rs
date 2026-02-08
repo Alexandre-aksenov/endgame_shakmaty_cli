@@ -5,8 +5,7 @@ use shakmaty_syzygy::{Tablebase};
 
 
 extern crate endgame_shakmaty_cli;
-use endgame_shakmaty_cli::{query_player_wait, query_opponent_move};
-// query_players_move, query_tablebase_move
+use endgame_shakmaty_cli::{query_player_wait, query_opponent_move, pretty_format};
 
 fn main() {
 
@@ -30,9 +29,10 @@ fn main() {
     
     // Print the pos of study
     println!("Init position");
-    println!("{:?}", study.board()); // FEN. Small output for end user, but enough for dev.
+    // println!("{:?}", study.board()); // FEN. Small output for end user, but enough for dev.
     // For instance: 8/8/1KP5/3r4/8/8/8/k7
-
+    println!("{}", pretty_format(&study));
+    
     // Main loop
     let mut awaiting_player_move = true;
     while !study.is_game_over()
@@ -51,7 +51,9 @@ fn main() {
             println!("Opponent's move: {}", opponent_reply); // Examples: "Rd6-d5", "Rd7xc7"
             study.play_unchecked(opponent_reply) ;
             println!("Position after opponent's move:");
-            println!("{:?}", study.board());
+            // println!("{:?}", study.board());
+            //->
+            println!("{}", pretty_format(&study));
             /*
 . . . . . . . .
 . . P . . . . .
