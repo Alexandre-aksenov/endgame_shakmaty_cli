@@ -76,7 +76,7 @@ fn check_uci_to_move<T: Sized + Position>(pos : &T, input: &str) -> Result<Move,
     
     let uci: UciMove = match input.parse() {
         Ok(mv) => mv,
-        Err(_) => { // println!("Failed to parse the move."); continue;
+        Err(_) => {
             return Err(String::from("Failed to parse the move."));
             }
     };
@@ -92,22 +92,12 @@ fn check_uci_to_move<T: Sized + Position>(pos : &T, input: &str) -> Result<Move,
 }
 
 /// "Pretty-print" position after the opponent's move.
-/// The layout can be improved by adding numbers of ranks & files
+/// Adding numbers of ranks & files
 pub fn pretty_format<T: Sized + Position>(pos : &T) -> String
 {
     /*
-    The layout can be improved:
-{current}
-. . . . . . . .
-. . . . . . . .
-. K P . . . . .
-. . . r . . . .
-. . . . . . . .
-. . . . . . . .
-. . . . . . . .
-k . . . . . . .
-->
-{future}
+    Current layout:
+
 8 . . . . . . . .
 7 . . . . . . . .
 6 . K P . . . . .
@@ -119,8 +109,7 @@ k . . . . . . .
   a b c d e f g h
 
     */
-    // format!("{:?}", pos.board())
-    //->
+
     let mut vec_str_result = vec![];
 
     // row of column names
