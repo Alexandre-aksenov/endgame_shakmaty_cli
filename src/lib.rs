@@ -119,5 +119,54 @@ k . . . . . . .
   a b c d e f g h
 
     */
-    format!("{:?}", pos.board())
+    // format!("{:?}", pos.board())
+    //->
+    let mut vec_str_result = vec![];
+
+    // row of column names
+    let cols = String::from("  a b c d e f g h");
+    let ranks = vec!['8', '7', '6', '5', '4', '3', '2', '1',];
+
+    let min_layout = format!("{:?}", pos.board());
+
+    for (line, rnk,) in min_layout.lines().zip(ranks.iter())  {
+        {
+            // prepend rank , ' '
+            let expanded_fmt = format!("{} {}", rnk, line);
+            vec_str_result.push(expanded_fmt);
+        }
+    }
+
+    vec_str_result.push(cols);
+    return vec_str_result.join("\n");
+}
+
+// Test module
+#[cfg(test)]
+mod tests {
+    use shakmaty::CastlingMode;
+    use shakmaty::fen::Fen;
+    use super::*;
+
+    #[test]
+    fn test_pretty_print_v1() {
+        let fen: Fen = "8/8/1KP5/3r4/8/8/8/k7 w - - 0 0".parse().unwrap();
+        let study: Chess = fen.into_position(CastlingMode::Standard).unwrap();
+
+        // Print the pos of study
+        let formatted = pretty_format(&study);
+        let expected = "8 . . . . . . . .\n7 . . . . . . . .\n6 . K P . . . . .\n5 . . . r . . . .\n4 . . . . . . . .\n3 . . . . . . . .\n2 . . . . . . . .\n1 k . . . . . . .";
+        assert_ne!(formatted, expected );
+    }
+
+    #[test]
+    fn test_pretty_print_v2() {
+        let fen: Fen = "8/8/1KP5/3r4/8/8/8/k7 w - - 0 0".parse().unwrap();
+        let study: Chess = fen.into_position(CastlingMode::Standard).unwrap();
+
+        // Print the pos of study
+        let formatted = pretty_format(&study);
+        let expected = "8 . . . . . . . .\n7 . . . . . . . .\n6 . K P . . . . .\n5 . . . r . . . .\n4 . . . . . . . .\n3 . . . . . . . .\n2 . . . . . . . .\n1 k . . . . . . .\n  a b c d e f g h";
+        assert_eq!(formatted, expected );
+    }
 }
