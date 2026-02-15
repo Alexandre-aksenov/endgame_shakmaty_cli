@@ -95,5 +95,29 @@ fn check_uci_to_move<T: Sized + Position>(pos : &T, input: &str) -> Result<Move,
 /// The layout can be improved by adding numbers of ranks & files
 pub fn pretty_format<T: Sized + Position>(pos : &T) -> String
 {
+    /*
+    The layout can be improved:
+{current}
+. . . . . . . .
+. . . . . . . .
+. K P . . . . .
+. . . r . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+k . . . . . . .
+->
+{future}
+8 . . . . . . . .
+7 . . . . . . . .
+6 . K P . . . . .
+5 . . . r . . . .
+4 . . . . . . . .
+3 . . . . . . . .
+2 . . . . . . . .
+1 k . . . . . . .
+  a b c d e f g h
+
+    */
     format!("{:?}", pos.board())
 }
