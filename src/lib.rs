@@ -190,7 +190,8 @@ mod remote_tablebase{
 }
 
 /// Module for parsing the input move from the Player or the remote tablebase.
-pub mod str_move{
+//pub mod str_move{
+mod str_move{
     use shakmaty::{Move, Position};
     use shakmaty::uci::UciMove;
 
