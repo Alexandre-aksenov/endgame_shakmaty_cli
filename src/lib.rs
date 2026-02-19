@@ -1,11 +1,12 @@
-use shakmaty::{Chess, Position, uci::UciMove, Move};
-use shakmaty_syzygy::Tablebase;
+use shakmaty::{Chess, Position, Move}; // uci::UciMove, 
+// use shakmaty_syzygy::Tablebase; // Only needed in the main branch.
 use std::io; // to query the Player's moves.
 use str_move::check_uci_to_move;
 
 use remote_tablebase::query_remote_tablebase_move; 
 
-/// Best move from the local tablebase. To be replaced by the remote later.
+// Best move from the local tablebase.
+/*
 fn query_tablebase_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Move
 {
     let tup_move = tables
@@ -15,6 +16,8 @@ fn query_tablebase_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Move
 
     return tup_move.0;
 }
+
+ */
 
 /// Query the player's move and return it to the main loop.
 pub fn query_player_wait<T: Sized + Position>(pos : &mut T) -> Move
@@ -47,7 +50,7 @@ pub fn play_opt_move<T: Sized + Position>(pos : &mut T, opt_mv: Option<Move>)
 */
 
 /// Return Rd4 (hardcoded) or the Tablebase's move.
-pub fn query_opponent_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Result<Move, String>
+pub fn query_opponent_move(pos :  &Chess, ) -> Result<Move, String>
 {
     let pos_fen = format!("{}", pos.board());
     let pos_pieces = str_chess_pieces(pos_fen.as_str());
@@ -57,8 +60,8 @@ pub fn query_opponent_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Result<M
         // -> 2nd check
         false => match pos_pieces == String::from("8/2P5/8/8/8/8/2K5/k2r4") {
             true => check_uci_to_move(pos, &String::from("d1d4")),
-            // false => Ok(query_tablebase_move(pos, tables))  // -> remote tablebase
-            false => query_remote_tablebase_move(pos)
+            // false => Ok(query_tablebase_move(pos, tables))  // tables: &Tablebase<Chess>
+            false => query_remote_tablebase_move(pos) // -> remote tablebase
         }
     }
 }
@@ -115,7 +118,7 @@ pub fn pretty_format<T: Sized + Position>(pos : &T) -> String
 /// Module for quering the remote tablebase
 mod remote_tablebase{
     use serde_json;
-    use shakmaty::{Chess, Position, uci::UciMove, Move, fen::Fen, EnPassantMode, };
+    use shakmaty::{Chess, Move, fen::Fen, EnPassantMode, };
     use crate::str_move::check_uci_to_move;
 
     #[derive(serde::Deserialize)]

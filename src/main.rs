@@ -1,8 +1,8 @@
 use shakmaty::{Chess, Position, fen::Fen, CastlingMode};
 // see: https://docs.rs/shakmaty/latest/shakmaty/fen/index.html
 
-use shakmaty_syzygy::{Tablebase};
-
+// use shakmaty_syzygy::{Tablebase};
+// Only needed in the main branch.
 
 extern crate endgame_shakmaty_cli;
 use endgame_shakmaty_cli::{query_player_wait, query_opponent_move, pretty_format};
@@ -23,9 +23,9 @@ fn main() {
     let fen: Fen = "8/8/1KP5/3r4/8/8/8/k7 w - - 0 0".parse().unwrap();
     let mut study: Chess = fen.into_position(CastlingMode::Standard).unwrap();
 
-    // import the tablebase.
-    let mut tables = Tablebase::new();
-    tables.add_directory("tables").expect("Could not add tablebase directory");
+    // import the tablebase : only needed in the main branch.
+    // let mut tables = Tablebase::new();
+    // tables.add_directory("tables").expect("Could not add tablebase directory");
     
     // Print the pos of study
     println!("Init position");
@@ -52,7 +52,8 @@ k . . . . . . .
         }
         else
         {
-            let opponent_reply = query_opponent_move(&study, &tables).expect("Could not query opponent's move.");
+            let opponent_reply = query_opponent_move(&study).expect("Could not query opponent's move.");
+            // 2nd parameter (&tables) is needed in the main branch with local tablebase.
             
             println!("Opponent's move: {}", opponent_reply); // Examples: "Rd6-d5", "Rd7xc7"
             study.play_unchecked(opponent_reply) ;
