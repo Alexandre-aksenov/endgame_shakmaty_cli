@@ -5,6 +5,8 @@ use str_move::check_uci_to_move;
 
 use remote_tablebase::query_remote_tablebase_move; 
 
+// use opponent::query_opponent_move;
+
 // Best move from the local tablebase.
 /*
 fn query_tablebase_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Move
@@ -49,30 +51,7 @@ pub fn play_opt_move<T: Sized + Position>(pos : &mut T, opt_mv: Option<Move>)
 }
 */
 
-/// Return Rd4 (hardcoded) or the Tablebase's move.
-pub fn query_opponent_move(pos :  &Chess, ) -> Result<Move, String>
-{
-    let pos_fen = format!("{}", pos.board());
-    let pos_pieces = str_chess_pieces(pos_fen.as_str());
-    
-    match pos_pieces == String::from("8/2P5/8/8/8/3r4/2K5/k7") {
-        true => check_uci_to_move(pos, &String::from("d3d4")),
-        // -> 2nd check
-        false => match pos_pieces == String::from("8/2P5/8/8/8/8/2K5/k2r4") {
-            true => check_uci_to_move(pos, &String::from("d1d4")),
-            // false => Ok(query_tablebase_move(pos, tables))  // tables: &Tablebase<Chess>
-            false => query_remote_tablebase_move(pos) // -> remote tablebase
-        }
-    }
-}
 
-/// Leave just the pieces part of the FEN.
-/// Example: "8/8/1KP5/3r4/8/8/8/k7 w - - 0 0" -> "8/8/1KP5/3r4/8/8/8/k7"
-fn str_chess_pieces(full_fen: &str) -> &str
-{
-    // first word
-    full_fen.split_whitespace().next().unwrap()
-}
 
 
 
@@ -113,6 +92,37 @@ pub fn pretty_format<T: Sized + Position>(pos : &T) -> String
 
     vec_str_result.push(cols);
     return vec_str_result.join("\n");
+}
+
+pub mod opponent{
+    use shakmaty::{Chess, Position, Move};
+    use crate::remote_tablebase::query_remote_tablebase_move;
+    use crate::str_move::check_uci_to_move;
+
+    /// Return Rd4 (hardcoded) or the Tablebase's move.
+    pub fn query_opponent_move(pos :  &Chess, ) -> Result<Move, String>
+    {
+        let pos_fen = format!("{}", pos.board());
+        let pos_pieces = str_chess_pieces(pos_fen.as_str());
+
+        match pos_pieces == String::from("8/2P5/8/8/8/3r4/2K5/k7") {
+            true => check_uci_to_move(pos, &String::from("d3d4")),
+            // -> 2nd check
+            false => match pos_pieces == String::from("8/2P5/8/8/8/8/2K5/k2r4") {
+                true => check_uci_to_move(pos, &String::from("d1d4")),
+                // false => Ok(query_tablebase_move(pos, tables))  // tables: &Tablebase<Chess>
+                false => query_remote_tablebase_move(pos) // -> remote tablebase
+            }
+        }
+    }
+
+    /// Leave just the pieces part of the FEN.
+    /// Example: "8/8/1KP5/3r4/8/8/8/k7 w - - 0 0" -> "8/8/1KP5/3r4/8/8/8/k7"
+    fn str_chess_pieces(full_fen: &str) -> &str
+    {
+        // first word
+        full_fen.split_whitespace().next().unwrap()
+    }
 }
 
 /// Module for quering the remote tablebase

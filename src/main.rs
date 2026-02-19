@@ -5,7 +5,8 @@ use shakmaty::{Chess, Position, fen::Fen, CastlingMode};
 // Only needed in the main branch.
 
 extern crate endgame_shakmaty_cli;
-use endgame_shakmaty_cli::{query_player_wait, query_opponent_move, pretty_format};
+use endgame_shakmaty_cli::{query_player_wait, pretty_format};
+use endgame_shakmaty_cli::opponent::query_opponent_move;
 
 fn main() {
 
