@@ -1,4 +1,4 @@
-use shakmaty::{Chess, Position, }; // uci::UciMove, Move
+use shakmaty::{Position, }; // uci::UciMove, Move, Chess, 
 // use shakmaty_syzygy::Tablebase; // Only needed in the main branch.
 // use std::io; // to query the Player's moves.
 // use str_move::check_uci_to_move;
@@ -74,7 +74,8 @@ pub mod player{
     use crate::str_move::check_uci_to_move;
 
     /// Query the player's move and return it to the main loop.
-    pub fn query_player_wait<T: Sized + Position>(pos : &mut T) -> Move
+    // pub fn query_player_wait<T: Sized + Position>(pos : &mut T) -> Move
+    pub fn query_player_wait<T: Sized + Position>(pos : &T) -> Move
     {
         let mut candidate_move = None;
 
@@ -99,7 +100,7 @@ pub mod opponent{
     use crate::str_move::check_uci_to_move;
 
     /// Return Rd4 (hardcoded) or the Tablebase's move.
-    pub fn query_opponent_move(pos :  &Chess, ) -> Result<Move, String>
+    pub fn query_opponent_move(pos :  &Chess) -> Result<Move, String>
     {
         let pos_fen = format!("{}", pos.board());
         let pos_pieces = str_chess_pieces(pos_fen.as_str());
@@ -232,7 +233,7 @@ mod str_move{
 /// Test module
 #[cfg(test)]
 mod tests {
-    use shakmaty::CastlingMode;
+    use shakmaty::{Chess, CastlingMode};
     use shakmaty::fen::Fen;
     use super::*;
 
