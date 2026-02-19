@@ -3,6 +3,8 @@ use shakmaty_syzygy::Tablebase;
 use std::io; // to query the Player's moves.
 use str_move::check_uci_to_move;
 
+use remote_tablebase::query_remote_tablebase_move; 
+
 /// Best move from the local tablebase. To be replaced by the remote later.
 fn query_tablebase_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Move
 {
@@ -44,7 +46,7 @@ pub fn play_opt_move<T: Sized + Position>(pos : &mut T, opt_mv: Option<Move>)
 }
 */
 
-/// Return Rd3-d4 (hardcoded) or the Tablebase's move.
+/// Return Rd4 (hardcoded) or the Tablebase's move.
 pub fn query_opponent_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Result<Move, String>
 {
     let pos_fen = format!("{}", pos.board());
@@ -55,7 +57,8 @@ pub fn query_opponent_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Result<M
         // -> 2nd check
         false => match pos_pieces == String::from("8/2P5/8/8/8/8/2K5/k2r4") {
             true => check_uci_to_move(pos, &String::from("d1d4")),
-            false => Ok(query_tablebase_move(pos, tables))
+            // false => Ok(query_tablebase_move(pos, tables))  // -> remote tablebase
+            false => query_remote_tablebase_move(pos)
         }
     }
 }
