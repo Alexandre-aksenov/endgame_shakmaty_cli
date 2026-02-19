@@ -8,6 +8,6 @@ shakmaty = "0.30.0"
 shakmaty-syzygy = "0.28.0"
 
 # For retrieving Tablebase moves like what's done via "curl":
-reqwest = "0.13.2"
-serde = "1.0.228"
-
+reqwest = {version = "0.13.2", features = ["json", "blocking"]}
+serde = {version = "1.0.228", features = ["derive"]}
+serde_json = "1.0.149"
