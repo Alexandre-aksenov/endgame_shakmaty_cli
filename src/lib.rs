@@ -1,7 +1,7 @@
-use shakmaty::{Chess, Position, Move}; // uci::UciMove, 
+use shakmaty::{Chess, Position, }; // uci::UciMove, Move
 // use shakmaty_syzygy::Tablebase; // Only needed in the main branch.
-use std::io; // to query the Player's moves.
-use str_move::check_uci_to_move;
+// use std::io; // to query the Player's moves.
+// use str_move::check_uci_to_move;
 
 
 // Best move from the local tablebase.
@@ -18,24 +18,7 @@ fn query_tablebase_move(pos :  &Chess, tables: &Tablebase<Chess>) -> Move
 
  */
 
-/// Query the player's move and return it to the main loop.
-pub fn query_player_wait<T: Sized + Position>(pos : &mut T) -> Move
-{
-    let mut candidate_move = None;
 
-    while candidate_move.is_none() {
-        println!("Enter UCI move:");
-        let mut input = String::new();
-        io::stdin().read_line(&mut input).expect("Failed to read line");
-        
-        candidate_move = match check_uci_to_move(pos, input.trim()) {
-            Ok(mv) => Some(mv),
-            Err(err) => {println!("Encountered problem: {}", err); None},
-        }
-    }
-    
-    candidate_move.expect("The loop ended in an unexpected state.")
-}
 
 /*
 /// Play the move.
@@ -83,6 +66,31 @@ pub fn pretty_format<T: Sized + Position>(pos : &T) -> String
 
     vec_str_result.push(cols);
     return vec_str_result.join("\n");
+}
+
+pub mod player{
+    use std::io;
+    use shakmaty::{Move, Position};
+    use crate::str_move::check_uci_to_move;
+
+    /// Query the player's move and return it to the main loop.
+    pub fn query_player_wait<T: Sized + Position>(pos : &mut T) -> Move
+    {
+        let mut candidate_move = None;
+
+        while candidate_move.is_none() {
+            println!("Enter UCI move:");
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Failed to read line");
+
+            candidate_move = match check_uci_to_move(pos, input.trim()) {
+                Ok(mv) => Some(mv),
+                Err(err) => {println!("Encountered problem: {}", err); None},
+            }
+        }
+
+        candidate_move.expect("The loop ended in an unexpected state.")
+    }
 }
 
 pub mod opponent{
