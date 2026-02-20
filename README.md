@@ -8,22 +8,29 @@ In this case, the player can progress to the next exercise.
 The player is strongly encouraged to solve the position before playing it.
 Breaking the program's defense should merely serve to validate the solution.
 
+Currently, there are two branches, whch differ by how the opponent plays: the branch <code>main</code> calls a local tablebase, while <code>call_remote_tablebase</code> calls the tablebase on the servers of Lichess. The remote tablebase takes more time to reply, but offers a stronger defense.
+
 ## The opponent.
 
 The current opponent is a subset of Syzygy tablebase.
 It selects the move with the best outcome and is expected to prefer the line with the highest number of moves until a pawn move or capture.
-Its play is not the strongest one when several "equivalent" moves are possible.
+Its play may not be the strongest one when several "equivalent" moves are possible.
 
 ## Usage.
 
-To play the game, the user should have Rust installed, clone the repository, download the necessary tables from <code>http://tablebase.sesse.net/syzygy/3-4-5/</code>
-to the folder <code>tables</code> and run the following in the root folder:
+To play the game, the user should have Rust installed, clone the repository.
+
+If you play the version in the branch  <code>main</code>, you should download the necessary tables from <code>http://tablebase.sesse.net/syzygy/3-4-5/</code>
+to the folder <code>tables</code>. The list of files in the folder <code>tables</code> should contain at least these:
 ```bash
 ls ./tables/
 #-> {the list of files to download}
 # KBvK.rtbw  KNvK.rtbw  KPvK.rtbw  KQvKR.rtbw  KQvK.rtbw  KRvKB.rtbw  KRvKN.rtbw  KRvKP.rtbw  KRvKR.rtbw  KRvK.rtbw
 # KBvK.rtbz  KNvK.rtbz  KPvK.rtbz  KQvKR.rtbz  KQvK.rtbz  KRvKB.rtbz  KRvKN.rtbz  KRvKP.rtbz  KRvKR.rtbz  KRvK.rtbz
+```
 
+Afterwards, the usual instructions will compile and start the game:
+```bash
 cargo build
 
 cargo run
