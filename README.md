@@ -48,3 +48,6 @@ This is a work in progress. It currently contains a single position (position by
 All <b>suggestions</b> and <b>feedback</b> should be adressed to its author Alexandre Aksenov:
 * GitHub: Alexandre-aksenov
 * Email: alexander1aksenov@gmail.com
+
+This game has been ported to a Web App via the library Dioxus. 
+The App can be found at <https://endgame-wasm-minimal-polished-flower-9934.fly.dev/>.
